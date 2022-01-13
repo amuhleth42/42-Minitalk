@@ -1,7 +1,5 @@
 S_SRCS		= server.c
 C_SRCS		= client.c
-S_OBJS		= ${S_SRCS:.c=.o}
-C_OBJS		= ${C_SRCS:.c=.o}
 
 FLAGS		= -Wall -Wextra -Werror
 INCL		= -I./libft
