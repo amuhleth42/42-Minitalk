@@ -4,30 +4,29 @@ S_OBJS		= ${S_SRCS:.c=.o}
 C_OBJS		= ${C_SRCS:.c=.o}
 
 FLAGS		= -Wall -Wextra -Werror
+INCL		= -I./libft
 LIBFT		= -L./libft -lft
 
 all :		server client
 
 
-server :	libft
-			gcc $(FLAGS) $(LIBFT) $(S_SRCS) -o server
+server :	libft.a
+			gcc $(FLAGS) $(INCL) $(LIBFT) $(S_SRCS) -o server
 
 
-client :	libft
-			gcc $(FLAGS) $(LIBFT) $(C_SRCS) -o client
+client :	libft.a
+			gcc $(FLAGS) $(INCL) $(LIBFT) $(C_SRCS) -o client
 
 
-libft :
-			$(MAKE) -C .libft
+libft.a :
+			make -C ./libft
 
 clean :
-			$(MAKE) clean -C ./libft
-			rm *.o
+			make clean -C ./libft
 
 fclean :	clean
-			$(MAKE) fclean -C ./libft
-			rm server
-			rm client
+			make fclean -C ./libft
+			rm server client
 
 re :		fclean all
 
