@@ -1,12 +1,46 @@
 #include <unistd.h>
+#include <signal.h>
 #include "libft.h"
 
+void	handle_sigusr(int sigtype, siginfo_t *info, void *context)
+{
+	static int	c_pid;
+	static int	i;
+	static unsigned char	c;
+
+	(void) context;
+	if (c_pid == 0)
+		c_pid = info->si_pid;
+	c = c | (sigtype == SIGUSR1);
+	i++;
+	if (i != 8)
+		c = c << 1;
+	else
+	{
+		i = 0;
+		if (c == 0)
+		{
+			kill(c_pid, SIGUSR1);
+			c_pid = 0;
+			return ;
+		}
+		write(1, &c, 1);
+		c = 0;
+	}
+}
 
 int	main(void)
 {
-	int	pid;
+	struct sigaction	sa;
+	int	reading;
 
-	pid = getpid();
-	ft_printf("PID : %d\n", pid);
+	sa.sa_flags = SA_SIGINFO;
+	sa.sa_sigaction = &handle_sigusr;
+	ft_printf("PID : %d\n", getpid());
+	sigaction(SIGUSR1, &sa, NULL);
+	sigaction(SIGUSR2, &sa, NULL);
+	reading = 1;
+	while (1)
+		pause();
 	return (0);
 }

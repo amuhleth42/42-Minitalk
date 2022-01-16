@@ -1,14 +1,49 @@
 #include "libft.h"
+#include <signal.h>
+
+void	handle_sigusr1(int sigtype)
+{
+	(void) sigtype;
+	write(1, "Message received!\n", 18);
+}
+
+void	send_char(int s_pid, char c)
+{
+	int	i;
+
+	i = 8;
+	while (i)
+	{
+		i--;
+		if ((c >> i) & 1)
+			kill(s_pid, SIGUSR1);
+		else
+			kill(s_pid, SIGUSR2);
+		usleep(100);
+	}
+}
+
+void	send_message(int s_pid, char *s)
+{
+	while (*s)
+	{
+		send_char(s_pid, *s);
+		s++;
+	}
+	send_char(s_pid, '\0');
+}
 
 int	main(int argc, char **argv)
 {
 	int	s_pid;
 
-	if (argc == 3)
+	if (argc != 3)
 	{
-		s_pid = ft_atoi(argv[1]);
-		ft_printf("On va parler au process %d!!\n", s_pid);
-		ft_printf("Et on va lui dire : %s\n", argv[2]);
+		ft_printf("Please enter the server's PID and the sentence you want to send.\n");
+		return (0);
 	}
+	signal(SIGUSR1, &handle_sigusr1);
+	s_pid = ft_atoi(argv[1]);
+	send_message(s_pid, argv[2]);
 	return (0);
 }
