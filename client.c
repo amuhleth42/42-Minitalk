@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   client.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amuhleth <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/19 18:18:26 by amuhleth          #+#    #+#             */
+/*   Updated: 2022/01/19 18:19:33 by amuhleth         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "libft.h"
 #include <signal.h>
 
@@ -39,7 +51,7 @@ int	main(int argc, char **argv)
 
 	if (argc != 3)
 	{
-		ft_printf("Please enter the server's PID and the sentence you want to send.\n");
+		ft_printf("Please enter the server's PID and a sentence to send\n");
 		return (0);
 	}
 	signal(SIGUSR1, &handle_sigusr1);

@@ -1,11 +1,23 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   server.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: amuhleth <marvin@42lausanne.ch>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/01/19 18:19:38 by amuhleth          #+#    #+#             */
+/*   Updated: 2022/01/19 18:21:30 by amuhleth         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 #include <signal.h>
 #include "libft.h"
 
 void	handle_sigusr(int sigtype, siginfo_t *info, void *context)
 {
-	static int	c_pid;
-	static int	i;
+	static int				c_pid;
+	static int				i;
 	static unsigned char	c;
 
 	(void) context;
@@ -32,14 +44,12 @@ void	handle_sigusr(int sigtype, siginfo_t *info, void *context)
 int	main(void)
 {
 	struct sigaction	sa;
-	int	reading;
 
 	sa.sa_flags = SA_SIGINFO;
 	sa.sa_sigaction = &handle_sigusr;
 	ft_printf("PID : %d\n", getpid());
 	sigaction(SIGUSR1, &sa, NULL);
 	sigaction(SIGUSR2, &sa, NULL);
-	reading = 1;
 	while (1)
 		pause();
 	return (0);
